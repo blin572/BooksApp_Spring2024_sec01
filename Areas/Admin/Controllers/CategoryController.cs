@@ -22,26 +22,29 @@ namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
             return View(listOfCategories);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             BooksDbContext bookDbContext = _dbContext;
             return View();
         }
-        /*
-        public IActionResult Create(CategoryController categoryObj)
+
+        [HttpPost]
+        public IActionResult Create(Category categoryObj)
         {
+            
             //test to make sure the category name is not 'test'
             if(categoryObj.Name.ToLower() == "test")
             {
-                ModelState.AddModelError("name", "Category name cannot be 'test'")
+                ModelState.AddModelError("name", "Category name cannot be 'test'");
             }
 
             //validation to make sure that category name and descriptio are not exactly the same
             if (categoryObj.Name.ToLower() == categoryObj.Description.ToLower())
             {
-                ModelState.AddModelError("description", "Category name and category description cannot be the same")
+                ModelState.AddModelError("description", "Category name and category description cannot be the same");
             }
-
+            
             if (ModelState.IsValid)
             {
                 _dbContext.Categories.Add(categoryObj);
@@ -49,10 +52,30 @@ namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(categoryObj);
         }
-        */
-        /*
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Category catObj = _dbContext.Categories.Find(id);
+            return View(catObj);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category id, [BindAttribute("CategoryID, Name, Description")] Category categoryObj)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Categories.Update(categoryObj);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View(categoryObj);
+        }
+
+      
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -60,14 +83,14 @@ namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
             return View(categoryObj);
 
         }
-
+    
         [HttpPost]
         [ActionName("Delete")]
         public IActionResult DeletePost(int id)
         {
             Category categoryObj = _dbContext.Categories.Find(id);
 
-            if(categoyObj != null)
+            if(categoryObj != null)
             {
                 _dbContext.Categories.Remove(categoryObj);
                 _dbContext.SaveChanges();
@@ -75,10 +98,10 @@ namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(categoryObj);
+                return View(categoryObj);
 
-        }
-        */
+            }
+
         public IActionResult Details(int id)
         {
             Category categoryObj = _dbContext.Categories.Find(id);

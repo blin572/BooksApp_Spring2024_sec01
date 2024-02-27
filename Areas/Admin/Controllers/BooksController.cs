@@ -95,12 +95,35 @@ namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, BookWIthCategoriesVM bookWithCategoriesVM)
+        public IActionResult Edit(IFormFile? imgFile, BookWIthCategoriesVM bookWithCategoriesVM)
         {
+            string wwwRootPath = _environment.WebRootPath;
 
             if (ModelState.IsValid)
             {
-                _dbContext.Update(bookWithCategoriesVM.Book);
+                if(imgFile != null)
+                {
+                    if (!string.IsNullOrEmpty(bookWithCategoriesVM.Book.ImgUrl))
+                    {
+                        //replace the file in the images folder
+                        var oldImgPath = Path.Combine(wwwRootPath, bookWithCategoriesVM.Book.ImgUrl.TrimStart('\\'));
+                        
+                        if (System.IO.File.Exists(oldImgPath))
+                        {
+                            System.IO.File.Delete(oldImgPath);//deletes existing file
+                        }
+
+                        using (var fileStream = new FileStream(Path.Combine(wwwRootPath,
+                        @"images\bookImages\" + imgFile.FileName), FileMode.Create))
+                        {
+                            imgFile.CopyTo(fileStream); //saves the img file in the requested folder/path
+                        }
+                        //replace the url in the database
+                        bookWithCategoriesVM.Book.ImgUrl = @"\images\bookImages\" + imgFile.FileName;
+                    }
+                }
+
+                _dbContext.Books.Update(bookWithCategoriesVM.Book);
                 _dbContext.SaveChanges();
 
                 return RedirectToAction("Index");

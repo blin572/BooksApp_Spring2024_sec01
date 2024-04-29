@@ -15,7 +15,10 @@ namespace BooksApp_Spring2024_sec01.Data
 
         public DbSet<Category> Categories { get; set; }  //adds categories table to database
         public DbSet<Books> Books { get; set; } //adds books table to database
+        public DbSet<Cart> Carts { get; set; } //adds cart table to database
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

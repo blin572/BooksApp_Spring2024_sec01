@@ -1,31 +1,31 @@
 ﻿@model List<Books>
 
 <div class="row">
-    @foreach(var eachBook in Model)
+    @foreach (var eachBook in Model)
     {
-        <div class="card col-3 m-2 p-2 border-2 shadow border-rounded text-center">
-            <img class="card-img-top" src="@eachBook.ImgUrl"/> 
+        <div class="col-3 mb-4">
+            <div class="card m-2 p-2 border-2 shadow border-rounded text-center">
+                <img class="card-img-top" src="@eachBook.ImgUrl" />
 
 
-            <div class="card-body">
-                <h3 class="card-title"> @eachBook.Title </h3>
+                <div class="card-body">
+                    <h3 class="card-title"> @eachBook.Title </h3>
 
-                <p class="card-text">
-                    <br >
-                    @eachBook.Author
-                    <br />
-                    @eachBook.Description
-                    <br />
-                    <p>
-                        @eachBook.category.Name
+                    <p class="card-text">
+                        <br>
+                        @eachBook.Author
+                        <br />
+
+                        @eachBook.Price
+
+
                     </p>
-                    @eachBook.Price
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@eachBook.BookID" class="btn btn-primary">Details</a>
+                </div>
 
-
-                </p>
 
             </div>
-
+            
         </div>
     }
 

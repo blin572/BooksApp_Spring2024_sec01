@@ -2,6 +2,7 @@ using BooksApp_Spring2024_sec01.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace BooksApp_Spring2024_sec01
 {
@@ -17,9 +18,20 @@ namespace BooksApp_Spring2024_sec01
             //fetch connection string
             var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+
+
             builder.Services.AddDbContext<BooksDbContext>(options => options.UseSqlServer(connString));
 
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<BooksDbContext>().AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
 
             builder.Services.AddRazorPages();
 
@@ -45,6 +57,8 @@ namespace BooksApp_Spring2024_sec01
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
             app.MapRazorPages();
 

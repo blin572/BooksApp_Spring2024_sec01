@@ -1,11 +1,13 @@
 ﻿using BooksApp_Spring2024_sec01.Data;
 using BooksApp_Spring2024_sec01.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin, Employee")]
     public class CategoryController : Controller
     {
         private BooksDbContext _dbContext;

@@ -1,0 +1,72 @@
+﻿@model ShoppingCartVM
+
+<form method="post">
+    <div> class="card text-center shadow"
+        <div class="row m-3 px-4">
+            <div class="col012 bg-primary rounded py-2" my-3>
+                <p class="card-title text-white text-start">
+                    Shopping Cart
+                </p>
+            </div>
+
+            <div class="col-12">
+                @foreach(var item in Model.CartItems)
+                {
+                    <div class="row border-bottom my-4">
+                        <div class="col-2 text-center">
+                            <img src="@item.Books.ImgUrl" class="card-img-top rounded" style="width:200px;height:200px"/>
+                        </div>
+
+                        <div class="col-6">
+                            <h5>@item.Books.Title</h5>
+                        </div>
+                        <div>
+                            <p><small>@item.Books.Description</small></p>
+                        </div>
+                        <div class="col-2">
+                            <h6>
+                                @item.Books.Price.ToString("c")
+                                &nbsp;
+                                x
+                                &nbsp;
+                                @item.Quantity
+                            </h6>
+                            <br/>
+                            <p>
+                                Subtotal : @item.SubTotal.ToString("c")
+                            </p>
+                        </div>
+                        <div class="col-1">
+                            <div class="btn-group">
+                                <a asp-action="IncrementByOne" asp-route-id="@item.CartId" class="btn btn-outline-primary py-2">+</a>
+                                &nbsp;
+                                <a asp-action="DecrementByOne" asp-route-id="@item.CartId" class="btn btn-outline-primary py-2">-</a>
+                            </div>
+
+                        </div>
+                        <div class="col-1">
+                            <a asp-action="RemoveFromCart" asp-route-id="@item.CartId" class="btn btn-danger">Remove</a>
+                        </div>
+
+                    </div>
+
+                }
+                <div class="col-12" text-end>
+                    Order total : @Model.Order.OrderTotal.ToString("c")
+                </div>
+
+            </div>
+
+            <div>
+                <a asp-action="ReviewOrder" class="btn btn-primary">Review Order</a>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</form>

@@ -1,6 +1,7 @@
 ﻿using BooksApp_Spring2024_sec01.Data;
 using BooksApp_Spring2024_sec01.Models;
 using BooksApp_Spring2024_sec01.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 namespace BooksApp_Spring2024_sec01.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles="Admin, Employee")]
     public class BooksController : Controller
     {
         

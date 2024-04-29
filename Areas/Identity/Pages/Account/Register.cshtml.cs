@@ -114,9 +114,10 @@ namespace BooksApp_Spring2024_sec01.Areas.Identity.Pages.Account
             {
                 _roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();
 
-                _roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole("Manager")).GetAwaiter().GetResult();
 
                 _roleManager.CreateAsync(new IdentityRole("Employee")).GetAwaiter().GetResult();
+
             }
 
             ReturnUrl = returnUrl;
